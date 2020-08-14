@@ -41,6 +41,10 @@ class DockerContainerInstance
 
         $process = Process::fromShellCommandline($fullCommand);
 
+        // increasing the timeout limit
+        $process->setTimeout(180);
+        $process->setIdleTimeout(180);
+
         $process->run();
 
         return $process;
@@ -81,6 +85,10 @@ class DockerContainerInstance
 
         $process = Process::fromShellCommandline($fullCommand);
 
+        // increasing the timeout limit
+        $process->setTimeout(84600);
+        $process->setIdleTimeout(36000);
+
         $process->run();
 
         return $process;
@@ -119,6 +127,11 @@ class DockerContainerInstance
     public function addFiles(string $fileOrDirectoryOnHost, string $pathInContainer): self
     {
         $process = Process::fromShellCommandline("docker cp {$fileOrDirectoryOnHost} {$this->getShortDockerIdentifier()}:{$pathInContainer}");
+
+        // increasing the timeout limit
+        $process->setTimeout(180);
+        $process->setIdleTimeout(180);
+
         $process->run();
 
         if (! $process->isSuccessful()) {
